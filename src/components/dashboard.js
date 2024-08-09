@@ -11,8 +11,32 @@ import { RiSendPlaneFill } from "react-icons/ri";
 
 export default function Dashboard(){
     const [selectedOption, setSelectedOption] = useState('About');
+    const [result, setResult] = React.useState("");
 
   const options = ['About', 'Resume', 'Portfolio', 'Contact'];
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setResult("Sending....");
+    const formData = new FormData(event.target);
+
+    formData.append("access_key", "8a4f7bff-6b97-4bcd-bcbe-6cbbb1714868");
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setResult("Form Submitted Successfully");
+      event.target.reset();
+    } else {
+      console.log("Error", data);
+      setResult(data.message);
+    }
+  };
 
   const renderContent = () => {
     switch (selectedOption) {
@@ -125,13 +149,13 @@ export default function Dashboard(){
                 </div>
                 <div className="cont-form">
                     <h2>Contact Form</h2>
-                    <form className="contact-form">
+                    <form className="contact-form" onSubmit={onSubmit}>
                         <div className="form-t-div">
-                            <input type="text" placeholder="Your Name"/>
-                            <input type="email" placeholder="Your E-Mail"/>
+                            <input type="text" placeholder="Your Name" name="name"/>
+                            <input type="email" placeholder="Your E-Mail" name="email"/>
                         </div>
-                        <textarea className="messagebox" placeholder="Your Message"></textarea>
-                        <button className="cont-btn"><RiSendPlaneFill/> Send Message</button>
+                        <textarea className="messagebox" placeholder="Your Message" name="message"></textarea>
+                        <button className="cont-btn" type="submit"><RiSendPlaneFill/> Send Message</button>
                     </form>
                 </div>
             </div>
