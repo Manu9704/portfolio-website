@@ -7,10 +7,19 @@ import { FaServer } from "react-icons/fa";
 import { FaLaptopCode } from "react-icons/fa6";
 import MapComponent from "./map";
 import { RiSendPlaneFill } from "react-icons/ri";
+import { FaInstagram } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { IoIosMail } from "react-icons/io";
+import { FaMobileAlt } from "react-icons/fa";
+import { IoCalendarSharp } from "react-icons/io5";
+import { IoLocationSharp } from "react-icons/io5";
 
 
 export default function Dashboard(){
     const [selectedOption, setSelectedOption] = useState('About');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [result, setResult] = React.useState("");
 
   const options = ['About', 'Resume', 'Portfolio', 'Contact'];
@@ -37,6 +46,26 @@ export default function Dashboard(){
       setResult(data.message);
     }
   };
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  const handleFaceBook = () => {
+    window.open('https://www.facebook.com/manohar.bandaru.35', '_blank', 'noopener,noreferrer')
+}
+const handleInstagram = () => {
+    window.open('https://www.instagram.com/the____manohar/', '_blank', 'noopener,noreferrer')
+}
+const handleTwitter = () => {
+    window.open('https://x.com/ManoharBandar16', '_blank', 'noopener,noreferrer')
+}
+const handleLinkedIn = () => {
+    window.open('https://linkedin.com/in/manohar-bandaru-2a7a881b3', '_blank', 'noopener,noreferrer')
+}
 
   const renderContent = () => {
     switch (selectedOption) {
@@ -157,6 +186,7 @@ export default function Dashboard(){
                         <textarea className="messagebox" placeholder="Your Message" name="message"></textarea>
                         <button className="cont-btn" type="submit"><RiSendPlaneFill/> Send Message</button>
                     </form>
+                    <span>{result}</span>
                 </div>
             </div>
           </div>
@@ -169,6 +199,12 @@ export default function Dashboard(){
     return(
         <div className="dash-board">
              <nav className="header">
+             <img 
+          src="https://w0.peakpx.com/wallpaper/592/1017/HD-wallpaper-memoji-emoji-album-artwork-cover-art-emoji-stickers-iphone-boy-emoji.jpg" 
+          alt="img"
+          className="header-img"
+          onClick={toggleSidebar}
+        />
         {options.map(option => (
           <button
             key={option}
@@ -182,6 +218,27 @@ export default function Dashboard(){
       <div className="content">
         {renderContent()}
       </div>
+      <div className="sidebarr">
+            <div className="top-sb">
+                <div className="img-box"><img src="https://w0.peakpx.com/wallpaper/592/1017/HD-wallpaper-memoji-emoji-album-artwork-cover-art-emoji-stickers-iphone-boy-emoji.jpg" alt="img"/></div>
+                <div className="tb-det">
+                <h2 className="my-name">MANOHAR BANDARU</h2>
+                <p className="fsd">Full Stack Developer</p></div>
+            </div>
+            <div className="bot-sb">
+                <div className="sb-det"><div className="sb-det-img"><IoIosMail/></div><div className="sb-det-text"><p>Email</p><p>manoharbandaru1960@gmail.com</p></div></div>
+                <div className="sb-det"><div className="sb-det-img"><FaMobileAlt/></div><div className="sb-det-text"><p>Phone</p><p>+91 9704621960</p></div></div>
+                <div className="sb-det"><div className="sb-det-img"><IoCalendarSharp/></div><div className="sb-det-text"><p>Date Of Birth</p><p>20 Feb 2000</p></div></div>
+                <div className="sb-det"><div className="sb-det-img"><IoLocationSharp/></div><div className="sb-det-text"><p>Location</p><p>Visakhapatnam, India</p></div></div>
+                <div className="sb-sm">
+                   <div className="soc-card" onClick={handleFaceBook}><FaFacebookSquare/></div>
+                   <div className="soc-card" onClick={handleInstagram}><FaInstagram/></div>
+                   <div className="soc-card" onClick={handleTwitter}><FaXTwitter/></div>
+                   <div className="soc-card" onClick={handleLinkedIn}><FaLinkedin/></div>
+                </div>
+            </div>
+        </div>
+      {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
         </div>
     )
 }
